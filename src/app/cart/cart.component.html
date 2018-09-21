@@ -1,0 +1,15 @@
+<div *ngIf="cartList.length; else emptyCart">
+  <p>Here is a list of cart products:</p>
+  <div class="cart-item" *ngFor="let item of cartList">
+    <h4>{{item.name}}</h4>
+    <span><b>Category:</b> {{item.category}}</span> |
+    <span><b>Qty:</b> {{item.qty}}</span> |
+    <span><b>Price:</b> {{item.price | currency}}</span> |
+    <span><b>Total:</b> {{item.price * item.qty | currency}} </span>
+    <button (click)="onDeleteProduct(item.id)">Remove</button>
+  </div>
+</div>
+<ng-template #emptyCart>
+  Your cart is empty!
+</ng-template>
+
