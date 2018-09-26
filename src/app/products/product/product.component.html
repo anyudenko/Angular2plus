@@ -1,4 +1,5 @@
-<div class="card product-wrap">
+<div class="card product-wrap"
+  [ngClass]="{'disabled': !product.isAvailable}">
   <div class="card-body">
     <h4 class="card-title">{{product.name}}</h4>
     <div>
