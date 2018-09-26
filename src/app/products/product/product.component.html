@@ -1,0 +1,15 @@
+<div class="card product-wrap">
+  <div class="card-body">
+    <h4 class="card-title">{{product.name}}</h4>
+    <div>
+      <span><b>Category:</b> {{product.category}}</span> |
+      <span><b>Price:</b> {{product.price | currency}}</span>
+    </div>
+    <p>{{product.description}}</p>
+    <button class="btn btn-sm btn-primary"
+      (click)="onBuyProduct()"
+      [attr.disabled]="product.isAvailable ? null: ''">
+      Buy
+    </button>
+  </div>
+</div>

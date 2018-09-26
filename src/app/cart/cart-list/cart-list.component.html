@@ -1,0 +1,16 @@
+<div class="container">
+  <div *ngIf="cartList.length; else emptyCart">
+    <app-cart-total [total]="cartTotal"></app-cart-total>
+
+    <div class="cart-list" *ngFor="let cartItem of cartList">
+      <app-cart-item [cartItem]="cartItem"
+         (onDelete)="onDeleteProductFromCart($event)"
+         (onQtyDecrease)="onCartProductQtyDecrease($event)"
+         (onQtyIncrease)="onCartProductQtyIncrease($event)"></app-cart-item>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    Your cart is empty!
+  </ng-template>
+</div>

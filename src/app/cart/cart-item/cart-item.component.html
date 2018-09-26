@@ -1,0 +1,28 @@
+<div class="card cart-item">
+  <div class="card-body">
+    <h4 class="card-title">{{cartItem.name}}</h4>
+    <span>
+      <b>Category:</b>
+      {{cartItem.category}}
+    </span> |
+    <span>
+      <b>Qty: </b>
+      <button class="btn btn-sm btn-primary"
+        (click)="onProductQtyDecrease(cartItem.id)">-</button>
+      {{cartItem.qty}}
+      <button class="btn btn-sm btn-primary"
+        (click)="onProductQtyIncrease(cartItem.id)">+</button>
+    </span> |
+    <span>
+      <b>Price:</b>
+      {{cartItem.price | currency}}
+    </span> |
+    <span>
+      <b>Total:</b>
+      {{cartItem.price * cartItem.qty | currency}}
+    </span>
+
+    <button class="btn btn-sm btn-primary"
+      (click)="onDeleteProduct(cartItem.id)">Remove</button>
+  </div>
+</div>
