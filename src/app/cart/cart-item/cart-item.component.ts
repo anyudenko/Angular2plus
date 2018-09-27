@@ -24,12 +24,12 @@ export class CartItemComponent implements OnInit {
 
   @HostListener('mouseenter', ['$event'])
   enter(event: Event) {
-    event.target.children[0].style.backgroundColor = '#eee';
+    (<HTMLTextAreaElement>(<HTMLTextAreaElement>event.target).children[0]).style.backgroundColor = '#eee';
   }
 
   @HostListener('mouseleave', ['$event'])
   leave(event: Event) {
-    event.target.children[0].style.backgroundColor = '';
+    (<HTMLTextAreaElement>(<HTMLTextAreaElement>event.target).children[0]).style.backgroundColor = '';
   }
 
   constructor() { }
