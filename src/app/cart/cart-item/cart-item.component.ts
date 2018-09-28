@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter,
- HostBinding, HostListener} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Cart } from '../../models/cart.model';
 
@@ -19,18 +18,6 @@ export class CartItemComponent implements OnInit {
 
   @Output()
   qtyIncrease: EventEmitter<number> = new EventEmitter();
-
-  @HostBinding('class') className = 'cart-item-host-class';
-
-  @HostListener('mouseenter', ['$event'])
-  enter(event: Event) {
-    (<HTMLTextAreaElement>(<HTMLTextAreaElement>event.target).children[0]).style.backgroundColor = '#eee';
-  }
-
-  @HostListener('mouseleave', ['$event'])
-  leave(event: Event) {
-    (<HTMLTextAreaElement>(<HTMLTextAreaElement>event.target).children[0]).style.backgroundColor = '';
-  }
 
   constructor() { }
 
