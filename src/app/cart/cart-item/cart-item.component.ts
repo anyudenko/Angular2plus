@@ -12,13 +12,13 @@ export class CartItemComponent implements OnInit {
   @Input() cartItem:Cart;
 
   @Output()
-  onDelete: EventEmitter<number> = new EventEmitter();
+  deleteProduct: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  onQtyDecrease: EventEmitter<number> = new EventEmitter();
+  qtyDecrease: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  onQtyIncrease: EventEmitter<number> = new EventEmitter();
+  qtyIncrease: EventEmitter<number> = new EventEmitter();
 
   @HostBinding('class') className = 'cart-item-host-class';
 
@@ -37,14 +37,14 @@ export class CartItemComponent implements OnInit {
   ngOnInit() { }
 
   onDeleteProduct() {
-    this.onDelete.emit(this.cartItem.id);
+    this.deleteProduct.emit(this.cartItem.id);
   }
 
   onProductQtyDecrease() {
-    this.onQtyDecrease.emit(this.cartItem.id);
+    this.qtyDecrease.emit(this.cartItem.id);
   }
 
   onProductQtyIncrease() {
-    this.onQtyIncrease.emit(this.cartItem.id);
+    this.qtyIncrease.emit(this.cartItem.id);
   }
 }

@@ -18,8 +18,6 @@ import { CartTotalComponent } from './cart-total/cart-total.component';
   exports: [
     CartListComponent
   ],
-  providers: [
-    CartService
-  ]
+  providers: [ ]
 })
 export class CartModule { }

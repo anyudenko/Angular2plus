@@ -4,9 +4,9 @@
 
     <div class="cart-list" *ngFor="let cartItem of cartList">
       <app-cart-item [cartItem]="cartItem"
-         (onDelete)="onDeleteProductFromCart($event)"
-         (onQtyDecrease)="onCartProductQtyDecrease($event)"
-         (onQtyIncrease)="onCartProductQtyIncrease($event)"></app-cart-item>
+         (deleteProduct)="onDeleteProductFromCart($event)"
+         (qtyDecrease)="onCartProductQtyDecrease($event)"
+         (qtyIncrease)="onCartProductQtyIncrease($event)"></app-cart-item>
     </div>
   </div>
 

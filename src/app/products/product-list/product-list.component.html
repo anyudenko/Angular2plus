@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngFor="let product of productList">
     <app-product [product]="product"
-      (onBuy)="onBuyProduct($event)"></app-product>
+      (buyProduct)="onBuyProduct($event)"></app-product>
   </div>
 </div>
