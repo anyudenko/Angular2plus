@@ -1,6 +1,8 @@
 <div class="container">
   <div *ngIf="cartList.length; else emptyCart">
     <app-cart-total [total]="cartTotal"></app-cart-total>
+    <button class="btn btn-sm btn-primary"
+      (click)="onClearCart()">Clear</button>
 
     <div class="cart-list" *ngFor="let cartItem of cartList">
       <app-cart-item [cartItem]="cartItem"

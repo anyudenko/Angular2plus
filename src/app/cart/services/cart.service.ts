@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Cart } from '../models/cart.model';
+import { Cart } from '../../models/cart.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,18 +20,18 @@ export class CartService {
     return Promise.resolve(this.cartProducts);
   }
 
-  addProduct(product) {
+  addProduct(product, qty) {
     let isNewItem:boolean = true;
 
     for (let i = 0; i < this.cartProducts.length; i++)  {
       if (this.cartProducts[i].id === product.id) {
-        this.cartProducts[i].qty += 1;
+        this.cartProducts[i].qty += qty;
         isNewItem = false;
       }
     }
 
     if(isNewItem) {
-      product.qty = 1;
+      product.qty = qty;
       this.cartProducts.push(product);
     }
 
@@ -88,5 +88,10 @@ export class CartService {
 
     this.cartTotal.totalQty = totalQty;
     this.cartTotal.totalPrice = totalPrice;
+  }
+
+  clearCart() {
+    this.cartProducts = [];
+    this.generateTotalInfo();
   }
 }

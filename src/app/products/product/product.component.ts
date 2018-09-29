@@ -11,13 +11,19 @@ export class ProductComponent implements OnInit {
   @Input() product:Product;
 
   @Output()
-  buyProduct: EventEmitter<Product> = new EventEmitter();
+  buyProduct: EventEmitter<any> = new EventEmitter();
+
+  qty:any = '';
 
   constructor() { }
 
   ngOnInit() { }
 
   onBuyProduct() {
-    this.buyProduct.emit(this.product);
+    const qty = (this.qty ? this.qty : 1);
+    this.buyProduct.emit({
+        product: this.product,
+        qty: +qty
+      });
   }
 }

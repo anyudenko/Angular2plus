@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../../models/product.model';
 
-import { ProductsService } from '../../services/products.service';
-import { CartService } from '../../services/cart.service';
+import { ProductsService } from '../services/products.service';
+import { CartService } from '../../cart/services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -23,10 +23,9 @@ export class ProductListComponent implements OnInit {
       .then(products => this.productList = products);
   }
 
-  onBuyProduct(product: Product): void {
-    if(product.isAvailable) {
-      this.cartService.addProduct(product);
-      this.cartService.generateTotalInfo();
+  onBuyProduct(product): void {
+    if(product.product.isAvailable) {
+      this.cartService.addProduct(product.product, product.qty);
     }
   }
 }
