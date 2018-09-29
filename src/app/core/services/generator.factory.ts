@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-export const Generator = new InjectionToken<staring>('Generator');
+export const Generator = new InjectionToken<string>('Generator');
 const symbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 export function GeneratorNFactory(length: number) {

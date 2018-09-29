@@ -22,7 +22,7 @@ export class ContactUsComponent implements OnInit {
     @Optional() private localStorageService: LocalStorageService,
     @Optional() private configOptionsService: ConfigOptionsService,
     @Optional() @Inject(CS) private constantsService: any,
-    @Optional() @Inject(Generator) private generatorService: staring
+    @Optional() @Inject(Generator) private generatorService: string
   ) { }
 
   ngOnInit() {
@@ -31,26 +31,34 @@ export class ContactUsComponent implements OnInit {
 
   testServices() {
     //localStorageService
-    console.log('*** test of localStorageService:');
-    this.localStorageService.setItem('LS', 25);
-    console.log('just created: LS =', this.localStorageService.getItem('LS'));
-    this.localStorageService.removeItem('LS');
+    if(this.localStorageService) {
+      console.log('*** test of localStorageService:');
+      this.localStorageService.setItem('LS', 25);
+      console.log('just created: LS =', this.localStorageService.getItem('LS'));
+      this.localStorageService.removeItem('LS');
+    }
 
     //configOptionsService
-    console.log('*** test of configOptionsService:');
-    this.configOptionsService.setConfig({
-      id: 1,
-      login: 'admin',
-      email: 'admin@gmail.com'
-    });
-    console.log('config =', this.configOptionsService.getConfig());
+    if(this.configOptionsService) {
+      console.log('*** test of configOptionsService:');
+      this.configOptionsService.setConfig({
+        id: 1,
+        login: 'admin',
+        email: 'admin@gmail.com'
+      });
+      console.log('config =', this.configOptionsService.getConfig());
+    }
 
     //constantsService
-    console.log('*** test of constantsService:');
-    console.log('value =', this.constantsService);
+    if(this.constantsService) {
+      console.log('*** test of constantsService:');
+      console.log('value =', this.constantsService);
+    }
 
     //generatorService
-    console.log('*** test of generatorService:');
-    console.log('generated value =', this.generatorService);
+    if(this.generatorService) {
+      console.log('*** test of generatorService:');
+      console.log('generated value =', this.generatorService);
+    }
   }
 }
