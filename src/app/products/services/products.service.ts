@@ -7,6 +7,12 @@ export class ProductsService {
   constructor() { }
 
   getProducts() {
-    return Promise.resolve(PRODUCTS);
+    //return Promise.resolve(PRODUCTS);
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(PRODUCTS);
+      }, 2000);
+    });
   }
 }

@@ -2,7 +2,7 @@
   [ngClass]="{'disabled': !product.isAvailable}"
   appStylingByClick="blue">
   <div class="card-body">
-    <h4 class="card-title">{{product.name}}</h4>
+    <h4 class="card-title">{{product.name | uppercase}}</h4>
     <div>
       <span><b>Category:</b> {{product.category}}</span> |
       <span><b>Price:</b> {{product.price | currency}}</span>

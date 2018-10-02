@@ -11,17 +11,14 @@ import { CartService } from '../../cart/services/cart.service';
   styleUrls: ['./product-list.component.less']
 })
 export class ProductListComponent implements OnInit {
-  productList: Product[] = [];
+  productList = this.productsService.getProducts()
 
   constructor(
     private productsService: ProductsService,
     private cartService: CartService
   ) { }
 
-  ngOnInit() {
-    this.productsService.getProducts()
-      .then(products => this.productList = products);
-  }
+  ngOnInit() { }
 
   onBuyProduct(product): void {
     if(product.product.isAvailable) {

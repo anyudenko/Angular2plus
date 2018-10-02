@@ -13,6 +13,16 @@ export class CartListComponent implements OnInit {
   cartList:Cart[] = [];
   cartTotal:any = {};
 
+  //sort functionality
+  sortByOptions:any[] = [
+    { title: 'price', value: 'price'},
+    { title: 'title', value: 'name'},
+    { title: 'qty', value: 'qty'}
+  ];
+  sortBy:string = this.sortByOptions[1].value;
+  sortOrder:boolean = false;
+
+
   constructor(private cartService: CartService) { }
 
   ngOnInit() {
