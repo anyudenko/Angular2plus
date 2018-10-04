@@ -7,7 +7,7 @@ import { Cart } from '../../models/cart.model';
   pure: false
 })
 export class OrderByPipe implements PipeTransform {
-  transform(array:[Cart], sortBy:string, sortOrder:boolean) {
+  transform(array:Cart[], sortBy:string, sortOrder:boolean) {
 
     array.sort((a: any, b: any) => {
       if (a[sortBy] < b[sortBy]) {
