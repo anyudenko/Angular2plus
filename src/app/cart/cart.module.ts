@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { CartListComponent } from './cart-list/cart-list.component';
-import { CartItemComponent } from './cart-item/cart-item.component';
-import { CartTotalComponent } from './cart-total/cart-total.component';
+import {
+  CartListComponent,
+  CartItemComponent,
+  CartTotalComponent } from './components';
 
 @NgModule({
   imports: [

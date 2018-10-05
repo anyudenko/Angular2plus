@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Cart } from '../../models/cart.model';
+import { Cart } from '../../cart/models';
 
 @Pipe({
   name: 'orderBy',

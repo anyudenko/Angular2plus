@@ -1,8 +1,15 @@
-import { Component, OnInit, InjectionToken, Inject, Optional } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  InjectionToken,
+  Inject,
+  Optional } from '@angular/core';
 
-import { LocalStorageService } from '../core/services/local-storage.service';
-import { ConfigOptionsService } from '../core/services/config-options.service';
-import { Generator, GeneratorNFactory } from '../core/services/generator.factory';
+import {
+  LocalStorageService,
+  ConfigOptionsService,
+  Generator,
+  GeneratorNFactory } from '../../../core/services';
 
 const CS = new InjectionToken<any>('ConstantsService');
 const CSValue = { App: "TaskManager", Ver: "1.0" };
