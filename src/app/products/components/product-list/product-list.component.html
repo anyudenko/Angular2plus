@@ -1,4 +1,13 @@
+<div class="control" *ngIf="mode == 'admin'">
+  <button class="btn btn-sm btn-primary"
+          (click)="onCreateProduct()">
+    Create new product
+  </button>
+</div>
+
 <div *ngFor="let product of productList | async">
-  <app-product [product]="product"
-    (buyProduct)="onBuyProduct($event)"></app-product>
+  <app-product [product]="product" [mode]="mode"
+    (buyProduct)="onBuyProduct($event)"
+    (editProduct)="onEditProduct($event)"
+    (deleteProduct)="onDeleteProduct($event)"></app-product>
 </div>

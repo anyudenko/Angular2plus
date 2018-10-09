@@ -21,9 +21,10 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     ProductsModule,
     CartModule,
-    SharedModule,
+    OrdersModule,
     LayoutModule,
 
     AppRoutingModule //MUST BE LAST
@@ -32,5 +33,7 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(router: Router) { }
+  constructor(router: Router) {
+     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+   }
 }

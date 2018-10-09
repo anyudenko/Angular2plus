@@ -2,21 +2,25 @@
   <app-cart-total [total]="cartTotal"></app-cart-total>
 
   <button class="btn btn-sm btn-primary"
-    (click)="onClearCart()">Clear</button>
+    (click)="onClearCart()">Clear cart</button>&nbsp;
+  <button class="btn btn-sm btn-primary"
+    (click)="onCompleteOrder()">Buy / Complete order</button>
 
-  <label>
-    Sort by:
-    <select class="form-control" name="sortBy" [(ngModel)]="sortBy">
-      <option *ngFor="let option of sortByOptions" [value]="option.value">
-        {{option.title}}
-      </option>
-    </select>
-  </label>
+  <div class="sort-wrap">
+    <label>
+      Sort by:
+      <select class="form-control" name="sortBy" [(ngModel)]="sortBy">
+        <option *ngFor="let option of sortByOptions" [value]="option.value">
+          {{option.title}}
+        </option>
+      </select>
+    </label>
 
-  <label>
-    <input type="checkbox" name="sortOrder" [(ngModel)]="sortOrder" />
-    Sort desc (otherwise asc by default)
-  </label>
+    <label>
+      <input type="checkbox" name="sortOrder" [(ngModel)]="sortOrder" />
+      Sort desc (otherwise asc by default)
+    </label>
+  </div>
 
   <div class="cart-list"
     *ngFor="let cartItem of cartList | orderBy : sortBy : sortOrder">

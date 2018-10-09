@@ -1,0 +1,56 @@
+<form *ngIf="product" (ngSubmit)="onSaveProduct()"
+      id="product-form" #form="ngForm">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control"
+           id="title" name="title"
+           placeholder="Title"
+           [(ngModel)]="product.name" />
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control"
+              id="description" name="description"
+              placeholder="Description"
+              [(ngModel)]="product.description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="price">Price</label>
+    <input type="number" min="0"
+           class="form-control"
+           id="price" name="price"
+           placeholder="Price"
+           [(ngModel)]="product.price">
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <input type="text" class="form-control"
+           id="category" name="category"
+           placeholder="Category"
+           [(ngModel)]="product.category" />
+  </div>
+
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="isAvailable"
+             [(ngModel)]="product.isAvailable" />
+      is available
+    </label>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    form="product-form"
+    [disabled]="form.invalid">Save
+  </button>&nbsp;
+
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="onGoBack()">Back
+  </button>
+</form>

@@ -8,12 +8,26 @@
       <span><b>Price:</b> {{product.price | currency}}</span>
     </div>
     <p>{{product.description}}</p>
-    <button class="btn btn-sm btn-primary"
-      (click)="onBuyProduct()"
-      [attr.disabled]="product.isAvailable ? null: ''">
-      Buy
-    </button>
-    <input type="text" placeholder="qty"
-      name="qty" [(ngModel)]="qty" />
+
+    <div *ngIf="mode == 'admin'">
+      <button class="btn btn-sm btn-primary"
+        (click)="onEditProduct()">
+        Edit
+      </button>&nbsp;
+      <button class="btn btn-sm btn-primary"
+        (click)="onDeleteProduct()">
+        Delete
+      </button>
+    </div>
+
+    <div *ngIf="mode !== 'admin'">
+      <button class="btn btn-sm btn-primary"
+        (click)="onBuyProduct()"
+        [attr.disabled]="product.isAvailable ? null: ''">
+        Add to cart
+      </button>
+      <input type="text" placeholder="qty"
+        name="qty" [(ngModel)]="qty" />
+    </div>
   </div>
 </div>

@@ -1,30 +1,45 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
-import { PathNotFoundComponent, ContactUsComponent } from './layout';
+import {
+  PathNotFoundComponent,
+  ContactUsComponent,
+  ProductReviewsComponent,
+  LoginComponent } from './layout';
 import { CartListComponent } from './cart';
 import { ProductListComponent } from './products';
+import { AuthGuard, CustomPreloadingStrategyService } from './core';
+
+const extraOptions: ExtraOptions = {
+  preloadingStrategy: CustomPreloadingStrategyService,
+};
 
 const routes: Routes = [
   {
-    path: 'products',
-    component: ProductListComponent
+    path: 'product-reviews',
+    component: ProductReviewsComponent,
+    outlet: 'product-reviews'
   },
   {
     path: 'cart',
     component: CartListComponent
   },
-  /*{
-    path: 'orders',
-    component: AboutComponent
-  },*/
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'admin',
+    canLoad: [AuthGuard],
+    loadChildren: './admin/admin.module#AdminModule'
+  },
   {
     path: 'contact-us',
     component: ContactUsComponent
   },
   {
     path: '',
-    redirectTo: '/products', //?
+    redirectTo: '/home', //product list page in child ProductsRoutingModule
     pathMatch: 'full'
   },
   {

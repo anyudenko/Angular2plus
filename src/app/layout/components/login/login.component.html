@@ -1,0 +1,11 @@
+<button class="btn btn-sm btn-primary"
+        (click)="onLogin()"
+        *ngIf="!authService.isLoggedIn">
+  Login as Admin
+</button>
+
+<button class="btn btn-sm btn-primary"
+        (click)="onLogout()"
+        *ngIf="authService.isLoggedIn">
+  Logout
+</button>

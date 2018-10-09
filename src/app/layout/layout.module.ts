@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { PathNotFoundComponent, ContactUsComponent } from './components';
+import {
+  PathNotFoundComponent,
+  ContactUsComponent,
+  ProductReviewsComponent,
+  LoginComponent } from './components';
 
 @NgModule({
   imports: [
@@ -11,7 +15,9 @@ import { PathNotFoundComponent, ContactUsComponent } from './components';
   ],
   declarations: [
     PathNotFoundComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    ProductReviewsComponent,
+    LoginComponent
   ]
 })
 export class LayoutModule { }

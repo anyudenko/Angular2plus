@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cart } from '../../models';
 
 import { CartService } from '../../services';
+import { OrderService } from '../../../orders';
 
 @Component({
   selector: 'app-cart-list',
@@ -23,7 +24,10 @@ export class CartListComponent implements OnInit {
   sortOrder:boolean = false;
 
 
-  constructor(private cartService: CartService) { }
+  constructor(
+    private cartService: CartService,
+    private orderService: OrderService
+  ) { }
 
   ngOnInit() {
     this.getCartProducts();
@@ -53,5 +57,16 @@ export class CartListComponent implements OnInit {
   onClearCart() {
     this.cartService.clearCart();
     this.getCartProducts();
+  }
+
+  onCompleteOrder() {
+    let order = {
+      id: null,
+      cart: this.cartList,
+      totalPrice: this.cartTotal.totalPrice,
+      totalQty: this.cartTotal.totalQty
+    };
+    this.orderService.addOrder(order);
+    this.onClearCart();
   }
 }

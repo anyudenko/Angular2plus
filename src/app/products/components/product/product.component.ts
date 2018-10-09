@@ -1,6 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter } from '@angular/core';
 
-import { Product } from '../../models/product.model';
+import { Product } from '../../models';
 
 @Component({
   selector: 'app-product',
@@ -9,9 +14,14 @@ import { Product } from '../../models/product.model';
 })
 export class ProductComponent implements OnInit {
   @Input() product:Product;
+  @Input() mode:string;
 
   @Output()
   buyProduct: EventEmitter<any> = new EventEmitter();
+  @Output()
+  editProduct: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output()
+  deleteProduct: EventEmitter<Product> = new EventEmitter<Product>();
 
   qty:any = '';
 
@@ -25,5 +35,13 @@ export class ProductComponent implements OnInit {
         product: this.product,
         qty: +qty
       });
+  }
+
+  onEditProduct() {
+    this.editProduct.emit(this.product);
+  }
+
+  onDeleteProduct() {
+    this.deleteProduct.emit(this.product);
   }
 }

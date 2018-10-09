@@ -3,19 +3,25 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
+import { ProductsRoutingModule } from './products-routing.module';
 
-import { ProductListComponent, ProductComponent } from './components';
+import {
+  ProductListComponent,
+  ProductComponent,
+  ProductFormComponent } from './components';
 import { ProductsService } from './services';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    ProductsRoutingModule
   ],
   declarations: [
     ProductListComponent,
-    ProductComponent
+    ProductComponent,
+    ProductFormComponent
   ],
   exports: [
     ProductListComponent

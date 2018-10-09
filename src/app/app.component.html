@@ -3,16 +3,20 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link" routerLink="/products"  routerLinkActive="active">
+      <a class="nav-link" routerLink="/home" routerLinkActive="active">
         Products</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/cart"  routerLinkActive="active">
+      <a class="nav-link" routerLink="/cart" routerLinkActive="active">
         Cart</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/orders" routerLinkActive="active">
-        Orders</a>
+      <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+        Admin</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/login" routerLinkActive="active">
+        Login</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink="/contact-us" routerLinkActive="active">
@@ -20,13 +24,17 @@
     </li>
   </ul>
 
-  <router-outlet></router-outlet>
-
-  <!--<app-product-list></app-product-list>
-  <hr/>
-
-  <app-cart-list></app-cart-list>
-  <hr/>
-
-  <app-contact-us></app-contact-us>-->
+  <div class="row">
+    <div class="col-md-9">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary"
+              (click)="onDisplayProductReviews()"
+              *ngIf="!productReviewsService.isDisplayed">
+        Product reviews
+      </button>
+      <router-outlet name="product-reviews"></router-outlet>
+    </div>
+  </div>
 </div>

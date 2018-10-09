@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Product } from '../../models';
 
@@ -11,18 +12,38 @@ import { CartService } from '../../../cart';
   styleUrls: ['./product-list.component.less']
 })
 export class ProductListComponent implements OnInit {
-  productList = this.productsService.getProducts()
+  @Input() mode?:string;
+
+  productList = this.productsService.getProducts();
+  //mode:string;
 
   constructor(
     private productsService: ProductsService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router,
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.mode = this.mode == 'admin' ? 'admin' : 'guest';
+  }
 
   onBuyProduct(product): void {
     if(product.product.isAvailable) {
       this.cartService.addProduct(product.product, product.qty);
     }
+  }
+
+  onEditProduct(product) {
+    //create absolute path /edit/productID
+    const link = ['/edit', product.id];
+    this.router.navigate(link);
+  }
+
+  onDeleteProduct(product) {
+    this.productsService.deleteProduct(product);
+  }
+
+  onCreateProduct(product) {
+    this.router.navigate(['/new']);
   }
 }

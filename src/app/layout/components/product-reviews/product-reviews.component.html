@@ -1,0 +1,20 @@
+<h4>Product reviews:</h4>
+
+<div>
+  <textarea [(ngModel)]="review"
+            placeholder="Your review here"></textarea>
+</div>
+<button type="button"
+        class="btn btn-sm btn-primary"
+        (click)="onReviewSave()">
+  Save review
+</button>&nbsp;
+<button type="button"
+        class="btn btn-sm btn-primary"
+        (click)="onClose()">
+  Close
+</button>
+
+<div *ngFor="let review of productReviewsService.getReviews()">
+  {{review}}
+</div>

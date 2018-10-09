@@ -2,7 +2,7 @@ import { Product } from '../models';
 
 export const PRODUCTS: Product[] = [
   {
-    id: 0,
+    id: 1,
     name: 'Lorem ipsum',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing ' +
       'elit. Donec et porta ipsum, ut consequat nisi. Sed a enim interdum, ' +
@@ -13,7 +13,7 @@ export const PRODUCTS: Product[] = [
     isAvailable: true
   },
   {
-    id: 1,
+    id: 2,
     name: 'Test product',
     description: 'Description of test product.',
     price: 199,
@@ -21,7 +21,7 @@ export const PRODUCTS: Product[] = [
     isAvailable: true
   },
   {
-    id: 2,
+    id: 3,
     name: 'Test product that isn\'t available',
     description: 'This product won\'t be shown on the page.',
     price: 5,
