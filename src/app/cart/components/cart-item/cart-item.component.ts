@@ -11,7 +11,7 @@ export class CartItemComponent implements OnInit {
   @Input() cartItem:Cart;
 
   @Output()
-  deleteProduct: EventEmitter<number> = new EventEmitter();
+  deleteProduct: EventEmitter<Cart> = new EventEmitter();
 
   @Output()
   qtyDecrease: EventEmitter<number> = new EventEmitter();
@@ -24,7 +24,7 @@ export class CartItemComponent implements OnInit {
   ngOnInit() { }
 
   onDeleteProduct() {
-    this.deleteProduct.emit(this.cartItem.id);
+    this.deleteProduct.emit(this.cartItem);
   }
 
   onProductQtyDecrease() {

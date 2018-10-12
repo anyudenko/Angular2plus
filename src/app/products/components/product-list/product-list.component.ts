@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { Product } from '../../models';
 
-import { ProductsService } from '../../services';
-import { CartService } from '../../../cart';
+import { ProductsPromiseService } from '../../services';
+import { CartObservableService } from '../../../cart';
 
 @Component({
   selector: 'app-product-list',
@@ -14,12 +14,11 @@ import { CartService } from '../../../cart';
 export class ProductListComponent implements OnInit {
   @Input() mode?:string;
 
-  productList = this.productsService.getProducts();
-  //mode:string;
+  productList = this.productsPromiseService.getProducts();
 
   constructor(
-    private productsService: ProductsService,
-    private cartService: CartService,
+    private productsPromiseService: ProductsPromiseService,
+    private cartObservableService: CartObservableService,
     private router: Router,
   ) { }
 
@@ -29,7 +28,7 @@ export class ProductListComponent implements OnInit {
 
   onBuyProduct(product): void {
     if(product.product.isAvailable) {
-      this.cartService.addProduct(product.product, product.qty);
+      this.cartObservableService.addProduct(product.product, product.qty);
     }
   }
 
@@ -40,7 +39,11 @@ export class ProductListComponent implements OnInit {
   }
 
   onDeleteProduct(product) {
-    this.productsService.deleteProduct(product);
+    this.productsPromiseService.deleteProduct(product)
+      .then(() => {
+        this.productList = this.productsPromiseService.getProducts()
+      })
+      .catch(err => console.log(err));
   }
 
   onCreateProduct(product) {

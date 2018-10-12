@@ -1,2 +1,1 @@
-export * from './products.service';
-export * from './mock-products';
+export * from './products-promise.service';

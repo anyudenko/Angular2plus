@@ -1,0 +1,30 @@
+{
+  "products": [
+    {
+      "id": 3,
+      "name": "Angular 6",
+      "description": "Description of Angular 6.",
+      "price": 199,
+      "category": "Book",
+      "isAvailable": true
+    },
+    {
+      "id": 4,
+      "name": "new hi hi",
+      "description": "kjk",
+      "price": 10,
+      "category": "test",
+      "isAvailable": false
+    }
+  ],
+  "cart": [
+    {
+      "id": 1,
+      "name": "new hi hi",
+      "price": 10,
+      "category": "test",
+      "isAvailable": false,
+      "qty": 3
+    }
+  ]
+}

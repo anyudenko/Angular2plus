@@ -9,7 +9,7 @@ import {
   ProductListComponent,
   ProductComponent,
   ProductFormComponent } from './components';
-import { ProductsService } from './services';
+import { ProductsPromiseService } from './services';
 
 @NgModule({
   imports: [
@@ -27,7 +27,7 @@ import { ProductsService } from './services';
     ProductListComponent
   ],
   providers: [
-    ProductsService
+    ProductsPromiseService
   ]
 })
 export class ProductsModule { }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Cart } from '../../models';
 
-import { CartService } from '../../services';
+import { CartObservableService } from '../../services';
 import { OrderService } from '../../../orders';
 
 @Component({
@@ -25,37 +25,37 @@ export class CartListComponent implements OnInit {
 
 
   constructor(
-    private cartService: CartService,
+    private cartObservableService: CartObservableService,
     private orderService: OrderService
   ) { }
 
   ngOnInit() {
     this.getCartProducts();
 
-    this.cartService.getTotalInfo()
+    this.cartObservableService.getTotalInfo()
       .then(data => this.cartTotal = data);
   }
 
   getCartProducts() {
-    this.cartService.getCartProducts()
+    this.cartObservableService.getCartProducts()
       .then(products => this.cartList = products);
   }
 
-  onDeleteProductFromCart(id: number): void {
-    this.cartService.deleteProduct(id);
+  onDeleteProductFromCart(cartItem: Cart): void {
+    this.cartObservableService.deleteProduct(cartItem);
     this.getCartProducts();
   }
 
   onCartProductQtyDecrease(id: number): void {
-    this.cartService.decreaseProductQty(id);
+    this.cartObservableService.decreaseProductQty(id);
   }
 
   onCartProductQtyIncrease(id: number): void {
-    this.cartService.increaseProductQty(id);
+    this.cartObservableService.increaseProductQty(id);
   }
 
   onClearCart() {
-    this.cartService.clearCart();
+    this.cartObservableService.clearCart();
     this.getCartProducts();
   }
 

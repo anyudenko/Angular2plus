@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
 import { Product } from '../../models';
-import { ProductsService } from '../../services';
+import { ProductsPromiseService } from '../../services';
 
 @Component({
   templateUrl: './product-form.component.html',
@@ -16,7 +16,7 @@ export class ProductFormComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productsService: ProductsService
+    private productsPromiseService: ProductsPromiseService
   ) { }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class ProductFormComponent implements OnInit {
           const productID = params.get('productID');
 
           if(productID != null) {
-            return this.productsService.getProduct(+productID);
+            return this.productsPromiseService.getProduct(+productID);
           } else {
             return Promise.resolve(this.product);
           }
@@ -42,14 +42,11 @@ export class ProductFormComponent implements OnInit {
 
   onSaveProduct() {
     const product = { ...this.product };
+    const method = product.id != null ? 'updateProduct' : 'createProduct';
 
-    if (product.id != null) {
-      this.productsService.updateProduct(product);
-    } else {
-      this.productsService.createProduct(product);
-    }
-
-    this.onGoBack();
+    this.productsPromiseService[method](product)
+      .then(() => this.onGoBack())
+      .catch(err => console.log(err));
   }
 
   onGoBack() {
