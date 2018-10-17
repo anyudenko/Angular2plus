@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Product } from '../../models';
@@ -14,6 +14,7 @@ import { CartObservableService } from '../../../cart';
 export class ProductListComponent implements OnInit {
   @Input() mode?:string;
 
+  sub;
   productList = this.productsPromiseService.getProducts();
 
   constructor(
@@ -28,7 +29,12 @@ export class ProductListComponent implements OnInit {
 
   onBuyProduct(product): void {
     if(product.product.isAvailable) {
-      this.cartObservableService.addProduct(product.product, product.qty);
+      const cartItem = product.product;
+      cartItem.qty = product.qty;
+
+      this.sub = this.cartObservableService
+        .createCartItem(cartItem)
+        .subscribe();
     }
   }
 
@@ -48,5 +54,11 @@ export class ProductListComponent implements OnInit {
 
   onCreateProduct(product) {
     this.router.navigate(['/new']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+       this.sub.unsubscribe();
+    }
   }
 }

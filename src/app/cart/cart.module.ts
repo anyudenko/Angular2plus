@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
+import { CartAPIProvider } from './cart.config';
 
 import {
   CartListComponent,
@@ -23,6 +24,8 @@ import {
   exports: [
     CartListComponent
   ],
-  providers: [ ]
+  providers: [
+    CartAPIProvider
+  ]
 })
 export class CartModule { }

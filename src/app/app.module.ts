@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Router } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,7 @@ import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
 
 import { AppComponent } from './app.component';
+import { TimingInterceptor } from './core';
 
 
 @NgModule({
@@ -31,7 +32,13 @@ import { AppComponent } from './app.component';
 
     AppRoutingModule //MUST BE LAST
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TimingInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

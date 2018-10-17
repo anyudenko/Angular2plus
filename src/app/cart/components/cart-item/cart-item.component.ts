@@ -14,10 +14,10 @@ export class CartItemComponent implements OnInit {
   deleteProduct: EventEmitter<Cart> = new EventEmitter();
 
   @Output()
-  qtyDecrease: EventEmitter<number> = new EventEmitter();
+  qtyDecrease: EventEmitter<Cart> = new EventEmitter();
 
   @Output()
-  qtyIncrease: EventEmitter<number> = new EventEmitter();
+  qtyIncrease: EventEmitter<Cart> = new EventEmitter();
 
   constructor() { }
 
@@ -28,10 +28,10 @@ export class CartItemComponent implements OnInit {
   }
 
   onProductQtyDecrease() {
-    this.qtyDecrease.emit(this.cartItem.id);
+    this.qtyDecrease.emit(this.cartItem);
   }
 
   onProductQtyIncrease() {
-    this.qtyIncrease.emit(this.cartItem.id);
+    this.qtyIncrease.emit(this.cartItem);
   }
 }

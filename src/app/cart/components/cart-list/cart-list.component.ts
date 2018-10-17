@@ -1,18 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+// rxjs
+import { Observable, Subscription, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Cart } from '../../models';
 
 import { CartObservableService } from '../../services';
 import { OrderService } from '../../../orders';
 
+import { AutoUnsubscribe } from '../../../core';
+
 @Component({
   selector: 'app-cart-list',
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.less']
 })
+@AutoUnsubscribe()
 export class CartListComponent implements OnInit {
   cartList:Cart[] = [];
-  cartTotal:any = {};
+  cartTotal:any = {
+    totalQty: 0,
+    totalPrice: 0
+  };
+
+  private sub: Subscription;
+  private sub2: Subscription;
+  private sub3: Subscription;
 
   //sort functionality
   sortByOptions:any[] = [
@@ -30,33 +44,31 @@ export class CartListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCartProducts();
-
-    this.cartObservableService.getTotalInfo()
-      .then(data => this.cartTotal = data);
-  }
-
-  getCartProducts() {
-    this.cartObservableService.getCartProducts()
-      .then(products => this.cartList = products);
+    this.sub = this.cartObservableService.getCartProducts()
+      .subscribe(products => {
+        this.cartList = products;
+        this.generateTotalInfo();
+      });
   }
 
   onDeleteProductFromCart(cartItem: Cart): void {
-    this.cartObservableService.deleteProduct(cartItem);
-    this.getCartProducts();
+    this.deleteCartItem(cartItem);
   }
 
-  onCartProductQtyDecrease(id: number): void {
-    this.cartObservableService.decreaseProductQty(id);
+  onCartProductQtyDecrease(cartItem: Cart): void {
+    cartItem.qty = cartItem.qty - 1;
+    this.updateProductQty(cartItem);
   }
 
-  onCartProductQtyIncrease(id: number): void {
-    this.cartObservableService.increaseProductQty(id);
+  onCartProductQtyIncrease(cartItem: Cart): void {
+    cartItem.qty = cartItem.qty + 1;
+    this.updateProductQty(cartItem);
   }
 
   onClearCart() {
-    this.cartObservableService.clearCart();
-    this.getCartProducts();
+    for (let i = 0; i < this.cartList.length; i++)  {
+      this.deleteCartItem(this.cartList[i]);
+    }
   }
 
   onCompleteOrder() {
@@ -68,5 +80,43 @@ export class CartListComponent implements OnInit {
     };
     this.orderService.addOrder(order);
     this.onClearCart();
+  }
+
+  deleteCartItem(cartItem) {
+    this.sub2 = this.cartObservableService.deleteCartItem(cartItem)
+      .subscribe(
+        (products) => {
+          this.cartList = products;
+          this.generateTotalInfo();
+        },
+        error => console.log(error)
+      );
+  }
+
+  updateProductQty(cartItem) {
+    if(cartItem.qty == 0) {
+      this.deleteCartItem(cartItem);
+    } else {
+      this.sub3 = this.cartObservableService.updateCartItem(cartItem)
+        .subscribe(
+          () => {
+            this.generateTotalInfo();
+          },
+          error => console.log(error)
+        );
+    }
+  }
+
+  generateTotalInfo() {
+    let totalQty = 0;
+    let totalPrice = 0;
+
+    for (let i = 0; i < this.cartList.length; i++)  {
+      totalQty += this.cartList[i].qty;
+      totalPrice += (this.cartList[i].qty * this.cartList[i].price);
+    }
+
+    this.cartTotal.totalQty = totalQty;
+    this.cartTotal.totalPrice = totalPrice;
   }
 }

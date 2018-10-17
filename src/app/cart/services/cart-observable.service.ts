@@ -1,6 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse
+} from '@angular/common/http';
+
+import { Observable, throwError } from 'rxjs';
+import { map, concatMap, catchError } from 'rxjs/operators';
 
 import { Cart } from '../../cart/models';
+import { CartAPI } from './../cart.config';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,89 +21,62 @@ export class CartObservableService {
 
   cartProducts:Cart[] = [];
 
-  cartTotal:any = {
-    totalQty: 0,
-    totalPrice: 0
-  };
+  constructor(
+    private http: HttpClient,
+      @Inject(CartAPI) private cartUrl: string
+  ) { }
 
-  constructor() { }
-
-  getCartProducts() {
-    return Promise.resolve(this.cartProducts);
+  getCartProducts(): Observable<Cart[]> {
+    return this.http
+      .get<Cart[]>(this.cartUrl)
+      .pipe(catchError(this.handleError));
   }
 
-  addProduct(product, qty) {
-    let isNewItem:boolean = true;
+  createCartItem(cartItem:Cart): Observable<Cart> {
+    const url = this.cartUrl,
+      body = JSON.stringify(cartItem),
+      options = {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+      };
 
-    for (let i = 0; i < this.cartProducts.length; i++)  {
-      if (this.cartProducts[i].id === product.id) {
-        this.cartProducts[i].qty += qty;
-        isNewItem = false;
-      }
+    return this.http
+      .post<Cart>(url, body, options)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteCartItem(cartItem:Cart): Observable<Cart[]> {
+    const url = `${this.cartUrl}/${cartItem.id}`;
+
+    return this.http.delete(url)
+      .pipe(
+        concatMap(() => this.getCartProducts())
+      );
+  }
+
+  updateCartItem(cartItem:Cart): Observable<Cart> {
+    const url = `${this.cartUrl}/${cartItem.id}`,
+      body = JSON.stringify(cartItem),
+      options = {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+      };
+
+    return this.http
+      .put<Cart>(url, body, options)
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage: string;
+
+    if (err.error instanceof Error) {
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      errorMessage = `Backend returned code ${err.status}, body was: ${
+        err.error
+      }`;
     }
 
-    if(isNewItem) {
-      product.qty = qty;
-      this.cartProducts.push(product);
-    }
-
-    this.generateTotalInfo();
-  }
-
-  deleteProduct(product) {
-    let index = 0;
-
-    for (let i = 0; i < this.cartProducts.length; i++)  {
-      if ( this.cartProducts[i].id === product.id) {
-        index = i;
-      }
-    }
-
-    this.cartProducts.splice(index, 1);
-    this.generateTotalInfo();
-  }
-
-  increaseProductQty(id) {
-    this.updateProductQty(id, 1);
-  }
-
-  decreaseProductQty(id) {
-    this.updateProductQty(id, -1);
-  }
-
-  updateProductQty(id, qty) {
-    for (let i = 0; i < this.cartProducts.length; i++)  {
-      if (this.cartProducts[i].id === id) {
-        this.cartProducts[i].qty += qty;
-
-        if(this.cartProducts[i].qty == 0) {
-          this.deleteProduct(id);
-        }
-      }
-    }
-
-    this.generateTotalInfo();
-  }
-
-  getTotalInfo() {
-    return Promise.resolve(this.cartTotal);
-  }
-
-  generateTotalInfo() {
-    let totalQty = 0;
-    let totalPrice = 0;
-
-    for (let i = 0; i < this.cartProducts.length; i++)  {
-      totalQty += this.cartProducts[i].qty;
-      totalPrice += (this.cartProducts[i].qty * this.cartProducts[i].price);
-    }
-
-    this.cartTotal.totalQty = totalQty;
-    this.cartTotal.totalPrice = totalPrice;
-  }
-
-  clearCart() {
-    this.cartProducts = [];
-    this.generateTotalInfo();
+    console.error(errorMessage);
+    return throwError(errorMessage);
   }
 }
