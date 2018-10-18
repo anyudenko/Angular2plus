@@ -1,30 +1,38 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { LocalStorageService } from './local-storage.service';
 
-import appSettings from '../../../assets/app-settings.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppSettingsService {
+  private appSettingsJsonUrl = 'http://localhost:5000/urls'; // assets/app-settings.json
+
   defaultAppSettings = {
     urls: {
       productsUrl: "http://localhost:3000/products"
     }
   };
 
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(
+    private localStorageService: LocalStorageService,
+    private http: HttpClient
+  ) { }
 
-  getSettings() {
-    var settings = this.localStorageService.getItem('AppSettings');
+  getSettings = async function() {
+    let settings;
+    const lsSettings = this.localStorageService.getItem('AppSettings');
 
-    if(settings) {
-      settings = JSON.parse(settings);
+    if(lsSettings) {
+      settings = JSON.parse(lsSettings);
     } else {
-      settings = appSettings;
+      const appSettings= await this.readJson();
 
-      if(settings) {
+      if(appSettings) {
+        settings = appSettings;
+
         this.localStorageService.setItem(
           'AppSettings',
           JSON.stringify(settings)
@@ -35,5 +43,17 @@ export class AppSettingsService {
     }
 
     return settings;
+  }
+
+  readJson = function(): Promise<any> {
+    return this.http.get(this.appSettingsJsonUrl)
+      .toPromise()
+      .then(response => <any>response)
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }

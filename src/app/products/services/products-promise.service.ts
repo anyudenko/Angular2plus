@@ -12,12 +12,12 @@ export class ProductsPromiseService {
   constructor(
     private http: HttpClient,
     private appSettings: AppSettingsService
-  ) {
-    var settings = this.appSettings.getSettings();
-    this.productsUrl = settings.urls.productsUrl;
-  }
+  ) { }
 
-  getProducts(): Promise<Product[]> {
+  async getProducts(): Promise<Product[]> {
+    var settings = await this.appSettings.getSettings();
+    this.productsUrl = settings.productsUrl;
+
     return this.http
       .get(this.productsUrl)
       .toPromise()
