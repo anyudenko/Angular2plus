@@ -1,20 +1,28 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Product } from '../../models';
+import { Subscription} from 'rxjs';
 
+import { Product } from '../../models';
 import { ProductsPromiseService } from '../../services';
 import { CartObservableService } from '../../../cart';
+
+import { AutoUnsubscribe } from '../../../core';
+
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.less']
 })
+@AutoUnsubscribe()
 export class ProductListComponent implements OnInit {
   @Input() mode?:string;
 
-  sub;
+  private sub: Subscription;
+  private sub2: Subscription;
+  private sub3: Subscription;
+
   productList = this.productsPromiseService.getProducts();
 
   constructor(
@@ -33,8 +41,22 @@ export class ProductListComponent implements OnInit {
       cartItem.qty = product.qty;
 
       this.sub = this.cartObservableService
-        .createCartItem(cartItem)
-        .subscribe();
+        .getCartProduct(cartItem.id)
+        .subscribe(
+          data => {
+            //update
+            cartItem.qty += data.qty;
+            this.sub2 = this.cartObservableService
+              .updateCartItem(cartItem)
+              .subscribe();
+          },
+          error => {
+            //create
+            this.sub3 = this.cartObservableService
+              .createCartItem(cartItem)
+              .subscribe();
+          }
+        );
     }
   }
 
@@ -54,11 +76,5 @@ export class ProductListComponent implements OnInit {
 
   onCreateProduct(product) {
     this.router.navigate(['/new']);
-  }
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-       this.sub.unsubscribe();
-    }
   }
 }

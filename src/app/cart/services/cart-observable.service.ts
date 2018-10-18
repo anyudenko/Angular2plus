@@ -32,6 +32,14 @@ export class CartObservableService {
       .pipe(catchError(this.handleError));
   }
 
+  getCartProduct(id: number): Observable<Cart> {
+    const url = `${this.cartUrl}/${id}`;
+
+    return this.http
+      .get<Cart>(url)
+      .pipe(catchError(this.handleError));
+  }
+
   createCartItem(cartItem:Cart): Observable<Cart> {
     const url = this.cartUrl,
       body = JSON.stringify(cartItem),

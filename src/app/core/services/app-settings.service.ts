@@ -17,7 +17,7 @@ export class AppSettingsService {
   constructor(private localStorageService: LocalStorageService) { }
 
   getSettings() {
-    let settings = this.localStorageService.getItem('AppSettings');
+    var settings = this.localStorageService.getItem('AppSettings');
 
     if(settings) {
       settings = JSON.parse(settings);
