@@ -2,12 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Product } from '../models';
+import { AppSettingsService } from '../../core/services';
 
 @Injectable()
 export class ProductsPromiseService {
-  private productsUrl = 'http://localhost:3000/products';
+  //private productsUrl = 'http://localhost:3000/products';
+  private productsUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private appSettings: AppSettingsService
+  ) {
+    var settings = this.appSettings.getSettings();
+    this.productsUrl = settings.urls.productsUrl;
+  }
 
   getProducts(): Promise<Product[]> {
     return this.http

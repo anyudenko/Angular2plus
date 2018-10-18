@@ -1,0 +1,6 @@
+{
+  "urls": {
+    "cartBaseUrl": "http://localhost:3000/cart",
+    "productsUrl": "http://localhost:3000/products"
+  }
+}
