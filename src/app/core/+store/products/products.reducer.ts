@@ -32,12 +32,6 @@ export function productsReducer(
     }
 
 
-    // GET_PRODUCT
-    case ProductsActionTypes.GET_PRODUCT: {
-      return {...state};
-    }
-
-
     // DELETE_PRODUCT
     case ProductsActionTypes.DELETE_PRODUCT: {
       return {...state};

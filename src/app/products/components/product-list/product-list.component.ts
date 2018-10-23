@@ -1,11 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { Subscription, Observable } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
-import { AppState, ProductsState } from './../../../core/+store';
+import {
+  AppState,
+  ProductsState,
+  getProductsState,
+  getProductsData,
+  getProductsError } from './../../../core/+store';
 import * as ProductsActions from './../../../core/+store/products/products.actions';
+import * as RouterActions from './../../../core/+store/router/router.actions';
+
+import { Subscription, Observable } from 'rxjs';
 
 import { Product } from '../../models';
 import { CartObservableService } from '../../../cart';
@@ -22,7 +27,8 @@ import { AutoUnsubscribe } from '../../../core';
 export class ProductListComponent implements OnInit {
   @Input() mode?:string;
 
-  productsState$: Observable<ProductsState>;
+  products$: Observable<ReadonlyArray<Product>>;
+  productsError$: Observable<Error | string>;
 
   private sub: Subscription;
   private sub2: Subscription;
@@ -30,14 +36,15 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private cartObservableService: CartObservableService,
-    private router: Router,
     private store: Store<AppState>
   ) { }
 
   ngOnInit() {
     console.log('Store works', this.store);
 
-    this.productsState$ = this.store.pipe(select('products'));
+    this.products$ = this.store.pipe(select(getProductsData));
+    this.productsError$ = this.store.pipe(select(getProductsError));
+
     this.store.dispatch(new ProductsActions.GetProducts());
 
     this.mode = this.mode == 'admin' ? 'admin' : 'guest';
@@ -70,7 +77,10 @@ export class ProductListComponent implements OnInit {
 
   onEditProduct(product) {
     const link = ['/edit', product.id];
-    this.router.navigate(link);
+
+    this.store.dispatch(new RouterActions.Go({
+      path: link
+    }));
   }
 
   onDeleteProduct(product) {
@@ -78,6 +88,8 @@ export class ProductListComponent implements OnInit {
   }
 
   onCreateProduct(product) {
-    this.router.navigate(['/new']);
+    this.store.dispatch(new RouterActions.Go({
+      path: ['/new']
+    }));
   }
 }

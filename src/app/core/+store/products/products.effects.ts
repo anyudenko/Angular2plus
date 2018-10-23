@@ -5,10 +5,12 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as ProductsActions from './products.actions';
 
 import { Observable } from 'rxjs';
-import { switchMap, concatMap, pluck } from 'rxjs/operators';
+import { switchMap, concatMap, pluck, map } from 'rxjs/operators';
 
 import { ProductsPromiseService } from './../../../products/services';
 import { Product } from './../../../products/models/product.model';
+
+import * as RouterActions from './../router/router.actions';
 
 
 @Injectable()
@@ -84,4 +86,16 @@ export class ProductsEffects {
     )
   );
 
+  @Effect()
+  createUpdateTaskSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<ProductsActions.CreateProduct | ProductsActions.UpdateProduct>(
+      ProductsActions.ProductsActionTypes.CREATE_PRODUCT_SUCCESS,
+      ProductsActions.ProductsActionTypes.UPDATE_PRODUCT_SUCCESS
+    ),
+    map(action =>
+      new RouterActions.Go({
+        path: ['/admin/products']
+      })
+    )
+  );
 }

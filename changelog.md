@@ -18,8 +18,8 @@
 
 Store был заинджекчен в компоненты:
 
-  * ProductsModule > ProductListComponent, ProductFormComponent
-  * ___
+  * ProductListComponent
+  * ProductFormComponent
 
 
 **2.2. Actions**
@@ -29,7 +29,6 @@ Store был заинджекчен в компоненты:
 Созданы следующие actions для Product фичи:
 
   * GetProducts, GetProductsSuccess, GetProductsError
-  * GetProduct
   * DeleteProduct, DeleteProductSuccess, DeleteProductError
   * CreateProduct, CreateProductSuccess, CreateProductError  
   * UpdateProduct, UpdateProductSuccess, UpdateProductError
@@ -40,7 +39,6 @@ Store был заинджекчен в компоненты:
 Соданы редюсеры для каждого типа события:
 
   * GetProducts, GetProductsSuccess, GetProductsError
-  * GetProduct
   * DeleteProduct, DeleteProductSuccess, DeleteProductError
   * CreateProduct, CreateProductSuccess, CreateProductError  
   * UpdateProduct, UpdateProductSuccess, UpdateProductError
@@ -58,11 +56,25 @@ Store был заинджекчен в компоненты:
 
 **2.5. Selectors**
 
+  * Создан feature selector - getProductsState
+  * Созданы state selectors - getProductsData, getProductsError, getProductByUrl
 
 
+### 3. Внедрён @ngrx/router-store
+
+  * Установлен модуль @ngrx/router-store
+  * Добавлена папка router
+  * Созданы router state, reducer, selector, actions, effects
+  * Router state использован при написании селектора getProductByUrl (products.selectors)
+  * Добавлена router навигация
 
 
-### 3. @ngrx/router-store
+Навигация была заменена в 
+
+  * компонентах (ProductListComponent, ProductFormComponent)
+  * эффектах createUpdateTaskSuccess (products.effects)
+  * AuthGuard
+
 
 ### 4. @ngrx/entity
 

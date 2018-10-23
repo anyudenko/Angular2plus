@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
-import { AppState, ProductsState } from './../../../core/+store';
+import { Store, select } from '@ngrx/store';
+import {
+  AppState,
+  ProductsState,
+  getProductByUrl } from './../../../core/+store';
 import * as ProductsActions from './../../../core/+store/products/products.actions';
+import * as RouterActions from './../../../core/+store/router/router.actions';
 
 import { Product } from '../../models';
 import { ProductsPromiseService } from '../../services';
@@ -17,10 +21,9 @@ import { ProductsPromiseService } from '../../services';
 })
 export class ProductFormComponent implements OnInit {
   product:Product;
+  private sub: Subscription;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private productsPromiseService: ProductsPromiseService,
     private store: Store<AppState>
   ) { }
@@ -28,31 +31,13 @@ export class ProductFormComponent implements OnInit {
   ngOnInit() {
     this.product = new Product();
 
-    this.route.paramMap
-      .pipe(
-        switchMap((params: Params) => {
-          const productID = params.get('productID');
-
-          if(productID != null) {
-            return this.productsPromiseService.getProduct(+productID);
-          } else {
-            return Promise.resolve(this.product);
-          }
-        })
-      )
-      .subscribe(
-        product => this.product = {...product},
-        err => console.log(err)
-    );
+    this.sub = this.store
+      .pipe(select(getProductByUrl))
+      .subscribe(product => this.product = product);
   }
 
   onSaveProduct() {
     const product = { ...this.product };
-    /*const method = product.id != null ? 'updateProduct' : 'createProduct';
-
-    this.productsPromiseService[method](product)
-      .then(() => this.onGoBack())
-      .catch(err => console.log(err));*/
 
     if(product.id) {
       this.store.dispatch(new ProductsActions.UpdateProduct(product));
@@ -62,6 +47,8 @@ export class ProductFormComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigate(['/admin/products']);
+    this.store.dispatch(new RouterActions.Go({
+      path: ['/admin/products']
+    }));
   }
 }
