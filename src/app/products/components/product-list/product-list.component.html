@@ -5,7 +5,9 @@
   </button>
 </div>
 
-<div *ngFor="let product of productList | async">
+<p *ngIf="(productsState$ | async).error as error">{{error}}</p>
+
+<div *ngFor="let product of (productsState$ | async).data">
   <app-product [product]="product" [mode]="mode"
     (buyProduct)="onBuyProduct($event)"
     (editProduct)="onEditProduct($event)"

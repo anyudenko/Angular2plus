@@ -1,31 +1,72 @@
 # Что было сделано
 
-### 1. Внесены изменения в настройки проекта для работы с json-server
+### 1. Для части приложения внесены изменения
 
-  * Добавлены npm модули, изменён script start в package.js
-  * Добавлен файл db/db.json
-
-
-### 2. Были созданы сервисы для работы с HttpClient
-
-  * ProductsPromiseService (реализует методы по схеме Promise)
-  * CartObservableService (реализует методы по схеме Observable)
+  * Установлен модуль @ngrx/schematics и добавлены конфигурации для cli
+  * Добавлены модули @ngrx/store и @ngrx/effects
+  * Установлен млодуль @ngrx/store-devtools, добавлено Redux DevTools расширение для Chrome браузера.
+  * В структуру проекта добавлена папка +store.
 
 
-### 3. TimingInterceptor
+### 2. Создан и внедрён state приложения с разделение на фичи
 
-Интерсептор выводит в консоль браузера длительность выполнения запросов.
-Добавлен фильтр, чтобы время подсчитыалось только для cart запросов.
+**2.1. State**
+
+  * В корне +store находится AppState и CoreStoreModule
+  * В +store/products находится стейт фичи Product.
 
 
-### 4. Создан сервис AppSettingsService
+Store был заинджекчен в компоненты:
 
-Сервис загружает настройки приложения (конфиги для запросов) из локал сторедж используя рание созданный сервис LocalStorageService.
-Используется в ProductsPromiseService.
+  * ProductsModule > ProductListComponent, ProductFormComponent
+  * ___
 
-В случае отсутствия данных в сторедже, настройки загружаются из файла assets/app-settings.json. 
-При удачной загрузке эти данные записываются в локал сторедж.
 
-В случае отсутствия настроек в файле app-settings.json устанавливаются значения настроек по умолчанию.
+**2.2. Actions**
 
-Для работы с app-settings.json был изменён script start в package.js (настроен url http://localhost:5000/).
+Тип описания: Class with static readonly + enum + ActionCreators.
+
+Созданы следующие actions для Product фичи:
+
+  * GetProducts, GetProductsSuccess, GetProductsError
+  * GetProduct
+  * DeleteProduct, DeleteProductSuccess, DeleteProductError
+  * CreateProduct, CreateProductSuccess, CreateProductError  
+  * UpdateProduct, UpdateProductSuccess, UpdateProductError
+
+
+**2.3. Reducers**
+
+Соданы редюсеры для каждого типа события:
+
+  * GetProducts, GetProductsSuccess, GetProductsError
+  * GetProduct
+  * DeleteProduct, DeleteProductSuccess, DeleteProductError
+  * CreateProduct, CreateProductSuccess, CreateProductError  
+  * UpdateProduct, UpdateProductSuccess, UpdateProductError
+
+
+**2.4. Effects**
+
+Созданы сайд эфекты для работы с БД:
+
+  * getProducts
+  * deleteProduct
+  * createProduct
+  * updateProduct
+
+
+**2.5. Selectors**
+
+
+
+
+
+### 3. @ngrx/router-store
+
+### 4. @ngrx/entity
+
+
+
+
+

@@ -24,6 +24,7 @@ import { TimingInterceptor } from './core';
   imports: [
     BrowserModule,
     SharedModule,
+    CoreModule,
     ProductsModule,
     CartModule,
     OrdersModule,
@@ -42,7 +43,5 @@ import { TimingInterceptor } from './core';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(router: Router) {
-     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
-   }
+  constructor(router: Router) { }
 }
