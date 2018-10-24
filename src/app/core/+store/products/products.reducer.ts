@@ -1,4 +1,7 @@
-import { ProductsState, initialProductsState } from './products.state';
+import {
+  ProductsState,
+  initialProductsState,
+  productAdapter } from './products.state';
 import { ProductsActions, ProductsActionTypes } from './products.actions';
 
 import { Product } from './../../../products/models/product.model';
@@ -16,11 +19,12 @@ export function productsReducer(
     }
 
     case ProductsActionTypes.GET_PRODUCTS_SUCCESS: {
-      const data = [...<Array<Product>>action.payload];
-      return {
-        ...state,
-        data
-      };
+      const products = [...<Array<Product>>action.payload];
+
+      return productAdapter.addAll(
+        products,
+        {...state}
+      );
     }
 
     case ProductsActionTypes.GET_PRODUCTS_ERROR: {
@@ -39,11 +43,7 @@ export function productsReducer(
 
     case ProductsActionTypes.DELETE_PRODUCT_SUCCESS: {
       const product = { ...<Product>action.payload };
-      const data = state.data.filter(p => p.id !== product.id);
-      return {
-        ...state,
-        data
-      };
+      return productAdapter.removeOne(product.id, state);
     }
 
     case ProductsActionTypes.DELETE_PRODUCT_ERROR: {
@@ -62,12 +62,7 @@ export function productsReducer(
 
     case ProductsActionTypes.CREATE_PRODUCT_SUCCESS: {
       const product = { ...<Product>action.payload };
-      const data = [...state.data, product];
-
-      return {
-        ...state,
-        data
-      };
+      return productAdapter.addOne(product, state);
     }
 
     case ProductsActionTypes.CREATE_PRODUCT_ERROR: {
@@ -79,19 +74,21 @@ export function productsReducer(
     }
 
 
+    // UPDATE_PRODUCT
     case ProductsActionTypes.UPDATE_PRODUCT: {
       return {...state};
     }
 
     case ProductsActionTypes.UPDATE_PRODUCT_SUCCESS: {
       const product = { ...<Product>action.payload };
-      const data = [...state.data];
-      const index = data.findIndex(p => p.id !== product.id);
-      data[index] = product;
-      return {
-        ...state,
-        data
-      };
+
+      return productAdapter.updateOne(
+        {
+          id: product.id,
+          changes: product
+        },
+        state
+      );
     }
 
     case ProductsActionTypes.UPDATE_PRODUCT_ERROR: {

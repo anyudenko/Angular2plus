@@ -78,7 +78,8 @@ Store был заинджекчен в компоненты:
 
 ### 4. @ngrx/entity
 
+Для Product фичи был применён entity - внесены изменения в +store/products.
 
-
-
-
+  * в state добавлен productAdapter
+  * внесены изменения в reducers - использованы методы productAdapter: addAll, addOne, updateOne, removeOne
+  * внесены изменения в selectors 
