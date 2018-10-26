@@ -8,6 +8,7 @@ import {
   LoginComponent } from './layout';
 import { CartListComponent } from './cart';
 import { ProductListComponent } from './products';
+import { ProcessOrderComponent } from './orders';
 import { AuthGuard, CustomPreloadingStrategyService } from './core';
 
 const extraOptions: ExtraOptions = {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartListComponent
+  },
+  {
+    path: 'complete-orders',
+    component: ProcessOrderComponent
   },
   {
     path: 'login',

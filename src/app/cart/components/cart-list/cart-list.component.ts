@@ -11,6 +11,11 @@ import { OrderService } from '../../../orders';
 
 import { AutoUnsubscribe } from '../../../core';
 
+import { Store } from '@ngrx/store';
+import { AppState } from './../../../core/+store';
+import * as RouterActions from './../../../core/+store/router/router.actions';
+
+
 @Component({
   selector: 'app-cart-list',
   templateUrl: './cart-list.component.html',
@@ -40,7 +45,8 @@ export class CartListComponent implements OnInit {
 
   constructor(
     private cartObservableService: CartObservableService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
@@ -72,14 +78,17 @@ export class CartListComponent implements OnInit {
   }
 
   onCompleteOrder() {
-    let order = {
+    /*let order = {
       id: null,
       cart: this.cartList,
       totalPrice: this.cartTotal.totalPrice,
       totalQty: this.cartTotal.totalQty
     };
     this.orderService.addOrder(order);
-    this.onClearCart();
+    this.onClearCart();*/
+    this.store.dispatch(new RouterActions.Go({
+      path: ['/complete-orders']
+    }));
   }
 
   deleteCartItem(cartItem) {

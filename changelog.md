@@ -1,85 +1,76 @@
 # Что было сделано
 
-### 1. Для части приложения внесены изменения
+### 1. Создан компонент ProcessOrderComponent
 
-  * Установлен модуль @ngrx/schematics и добавлены конфигурации для cli
-  * Добавлены модули @ngrx/store и @ngrx/effects
-  * Установлен млодуль @ngrx/store-devtools, добавлено Redux DevTools расширение для Chrome браузера.
-  * В структуру проекта добавлена папка +store.
+  * Добавлены изменения в роутер
+  * Изменена логика оформения заказа
 
-
-### 2. Создан и внедрён state приложения с разделение на фичи
-
-**2.1. State**
-
-  * В корне +store находится AppState и CoreStoreModule
-  * В +store/products находится стейт фичи Product.
+При нажатии на кнопку "Buy / Complete order" в корзине, 
+происходит редирект на страницу с формой (ProcessOrderComponent). 
+Только после успешного прохождения валидации заказ оформляется.
 
 
-Store был заинджекчен в компоненты:
+### 2. Добавлена форма с валидацией в ProcessOrderComponent
 
-  * ProductListComponent
-  * ProductFormComponent
+Тип формы - Data driven (Reactive form).
 
-
-**2.2. Actions**
-
-Тип описания: Class with static readonly + enum + ActionCreators.
-
-Созданы следующие actions для Product фичи:
-
-  * GetProducts, GetProductsSuccess, GetProductsError
-  * DeleteProduct, DeleteProductSuccess, DeleteProductError
-  * CreateProduct, CreateProductSuccess, CreateProductError  
-  * UpdateProduct, UpdateProductSuccess, UpdateProductError
-
-
-**2.3. Reducers**
-
-Соданы редюсеры для каждого типа события:
-
-  * GetProducts, GetProductsSuccess, GetProductsError
-  * DeleteProduct, DeleteProductSuccess, DeleteProductError
-  * CreateProduct, CreateProductSuccess, CreateProductError  
-  * UpdateProduct, UpdateProductSuccess, UpdateProductError
+Поля формы:
+  * Обязательные поля:
+    * firstNameId
+    * lastNameId
+    * email
+    * phone
+    
+  * Радиобаттоны:
+    * deliveryType
+    * paymentType
+    
+  * Группа address (появляется если был выбран тип "доставка" в deliveryType):
+    * city
+    * streetLine1
+    * streetLine2
 
 
-**2.4. Effects**
-
-Созданы сайд эфекты для работы с БД:
-
-  * getProducts
-  * deleteProduct
-  * createProduct
-  * updateProduct
+В стилях были использованы следующие css классы форм:
+  * ng-touched
+  * ng-valid
+  * ng-invalid.
 
 
-**2.5. Selectors**
-
-  * Создан feature selector - getProductsState
-  * Созданы state selectors - getProductsData, getProductsError, getProductByUrl
-
-
-### 3. Внедрён @ngrx/router-store
-
-  * Установлен модуль @ngrx/router-store
-  * Добавлена папка router
-  * Созданы router state, reducer, selector, actions, effects
-  * Router state использован при написании селектора getProductByUrl (products.selectors)
-  * Добавлена router навигация
+В шаблоне формы использованы директивы:
+  * formGroup
+  * formGroupName
+  * formControlName
+  * formArrayName
 
 
-Навигация была заменена в 
+В компоненте ProcessOrderComponent спользованы следующие классы:
+  * FormControl
+  * FormGroup (для группировки полей адреса) 
+  * FormArray (для дублирования телефонов)
+  * FormBuilder
 
-  * компонентах (ProductListComponent, ProductFormComponent)
-  * эффектах createUpdateTaskSuccess (products.effects)
-  * AuthGuard
+
+Добавлено дублирование поля phone. Добавлена возможность:
+  * добавить номер телефона
+  * удалить номер телефона (нельзя удалить номер телефона если он всего 1)
 
 
-### 4. @ngrx/entity
+В методе setDeliveryType происходит динамическое изменения правил валидации. 
+Для полей адреса устанавливается required, если выбран тип "доставка" в deliveryType.
+Иначе правила валидации для этих полей сбрасываются.
 
-Для Product фичи был применён entity - внесены изменения в +store/products.
+Для этого использовались методы:
+  * clearValidators
+  * setValidators
+  * updateValueAndValidity
 
-  * в state добавлен productAdapter
-  * внесены изменения в reducers - использованы методы productAdapter: addAll, addOne, updateOne, removeOne
-  * внесены изменения в selectors 
+
+Формирование и вывод сообщений валидации реализовано в классе компонета.
+
+
+++
+Использован debounceTime для задержка валидации на 1.5 секунд.
+
+описать Validator
+

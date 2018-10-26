@@ -1,0 +1,16 @@
+input.ng-valid.ng-touched{
+  background: #def;
+}
+
+input.ng-invalid.ng-touched{
+  background: #fde;
+}
+
+label i {
+  color: #c33;
+  text-shadow: 0px 0px 5px #c33;
+}
+
+.error {
+  color: #c33;
+}
