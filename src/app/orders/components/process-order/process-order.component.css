@@ -1,8 +1,8 @@
-input.ng-valid.ng-touched{
+input.ng-valid.ng-touched {
   background: #def;
 }
 
-input.ng-invalid.ng-touched{
+input.ng-invalid.ng-touched {
   background: #fde;
 }
 

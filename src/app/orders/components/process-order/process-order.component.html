@@ -13,7 +13,8 @@
                id="firstNameId"
                type="text"
                placeholder="First Name"
-               formControlName="firstName" />
+               formControlName="firstName"
+               (blur)="onBlur('firstName')" />
 
         <div class="error" *ngIf="validationMessages.firstName">
           {{validationMessages.firstName}}
@@ -31,7 +32,8 @@
                id="lastNameId"
                type="text"
                placeholder="Last Name"
-               formControlName="lastName" />
+               formControlName="lastName"
+               (blur)="onBlur('lastName')" />
 
         <div class="error" *ngIf="validationMessages.lastName">
           {{validationMessages.lastName}}
@@ -49,7 +51,8 @@
                id="emailId"
                type="email"
                placeholder="Email"
-               formControlName="email"/>
+               formControlName="email"
+               (blur)="onBlur('email')" />
 
         <div class="error" *ngIf="validationMessages.email">
           {{validationMessages.email}}
@@ -75,11 +78,11 @@
                    id="{{'phoneId' + i}}"
                    type="tel"
                    placeholder='Phone'
-                   formControlName="phone" />
+                   formControlName="phone"
+                   (blur)="onBlur('phoneList.' + i + '.phone', true)" />
 
-            <div class="error"
-                 *ngIf="i == phoneList.controls.length-1 && validationMessages.phone">
-              {{validationMessages.phone}}
+            <div class="error" *ngIf="validationMessages.phone[i]">
+              {{validationMessages.phone[i]}}
             </div>
           </div>
 
@@ -113,12 +116,12 @@
         <label class="radio-online">
           <input type="radio"
                  value="delivery"
-                 formControlName="deliveryType"> Standard delivery
+                 formControlName="deliveryType" /> Standard delivery
         </label><br/>
         <label class="radio-online">
           <input type="radio"
                  value="self"
-                 formControlName="deliveryType"> Pick up in the store
+                 formControlName="deliveryType" /> Pick up in the store
         </label>
       </div>
     </div>
@@ -129,12 +132,12 @@
         <label class="radio-online">
           <input type="radio"
                  value="card"
-                 formControlName="paymentType"> Credit card
+                 formControlName="paymentType" /> Credit card
         </label><br/>
         <label class="radio-online">
           <input type="radio"
                  value="cash"
-                 formControlName="paymentType"> Cash
+                 formControlName="paymentType" /> Cash
         </label>
       </div>
     </div>
@@ -147,10 +150,11 @@
             City <i>*</i>
           </label>
 
-          <div class="col-md-3">
+          <div class="col-md-7">
             <select class="form-control"
                     formControlName="city"
-                    id="cityId">
+                    id="cityId"
+                    (blur)="onBlur('address.city')" >
               <option value="">Select a City:</option>
               <option *ngFor="let city of cityList"
                       value="{{city}}">{{city}}
@@ -173,7 +177,8 @@
                    class="form-control"
                    id="streetLine1Id"
                    placeholder="Address"
-                   formControlName="streetLine1">
+                   formControlName="streetLine1"
+                   (blur)="onBlur('address.streetLine1')" />
 
             <div class="error" *ngIf="validationMessages.streetLine1">
               {{validationMessages.streetLine1}}
@@ -190,7 +195,7 @@
                    class="form-control"
                    id="streetLine2Id"
                    placeholder="Address (second line)"
-                   formControlName="streetLine2">
+                   formControlName="streetLine2" />
           </div>
         </div>
 
