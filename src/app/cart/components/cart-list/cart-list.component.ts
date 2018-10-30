@@ -21,7 +21,6 @@ import * as RouterActions from './../../../core/+store/router/router.actions';
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.less']
 })
-@AutoUnsubscribe()
 export class CartListComponent implements OnInit {
   cartList:Cart[] = [];
   cartTotal:any = {
@@ -30,8 +29,6 @@ export class CartListComponent implements OnInit {
   };
 
   private sub: Subscription;
-  private sub2: Subscription;
-  private sub3: Subscription;
 
   //sort functionality
   sortByOptions:any[] = [
@@ -55,6 +52,10 @@ export class CartListComponent implements OnInit {
         this.cartList = products;
         this.generateTotalInfo();
       });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   onDeleteProductFromCart(cartItem: Cart): void {
@@ -92,7 +93,7 @@ export class CartListComponent implements OnInit {
   }
 
   deleteCartItem(cartItem) {
-    this.sub2 = this.cartObservableService.deleteCartItem(cartItem)
+    const sub = this.cartObservableService.deleteCartItem(cartItem)
       .subscribe(
         (products) => {
           this.cartList = products;
@@ -100,19 +101,23 @@ export class CartListComponent implements OnInit {
         },
         error => console.log(error)
       );
+
+    this.sub.add(sub);
   }
 
   updateProductQty(cartItem) {
     if(cartItem.qty == 0) {
       this.deleteCartItem(cartItem);
     } else {
-      this.sub3 = this.cartObservableService.updateCartItem(cartItem)
+      const sub = this.cartObservableService.updateCartItem(cartItem)
         .subscribe(
           () => {
             this.generateTotalInfo();
           },
           error => console.log(error)
         );
+
+      this.sub.add(sub);
     }
   }
 
